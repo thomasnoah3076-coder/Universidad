@@ -11,11 +11,6 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id(); // PK (id_evento)
             
-            // Llave foránea hacia clubs
-            $table->foreignId('club_id')
-                    ->constrained('clubs')
-                    ->cascadeOnDelete(); // Si el club se borra, sus eventos también
-            
             $table->string('name'); // nombre_evento
             $table->text('description')->nullable(); // descripcion
             $table->dateTime('event_date'); // fecha_evento
@@ -28,7 +23,6 @@ return new class extends Migration
                     ->nullOnDelete(); // FK (id_usuario_registro) hacia la tabla users
             
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

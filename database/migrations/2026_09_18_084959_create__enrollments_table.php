@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id(); // PK (id_inscripcion)
             
             // FKs (id_estudiante y id_club)
-            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
-            $table->foreignId('club_id')->constrained('clubs')->cascadeOnDelete();
+            $table->foreignId('student_id')->constrained('students');
+            $table->foreignId('club_id')->constrained('clubs');
             $table->dateTime('enrollment_date')->useCurrent(); // fecha_inscripcion
             
             // Estado manejado con opciones predefinidas

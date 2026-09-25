@@ -27,6 +27,7 @@ return new class extends Migration
                     ->nullable()
                     ->constrained('users')
                     ->nullOnDelete(); // FK (id_usuario_registro) hacia la tabla users
+            
             $table->timestamps();
         });
     }

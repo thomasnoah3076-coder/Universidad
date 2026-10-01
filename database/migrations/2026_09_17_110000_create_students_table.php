@@ -7,27 +7,21 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-    {
-        Schema::create('events', function (Blueprint $table) {
-            $table->id(); // PK (id_evento)
-            
-            $table->string('name'); // nombre_evento
-            $table->text('description')->nullable(); // descripcion
-            $table->dateTime('event_date'); // fecha_evento
-            $table->string('location')->nullable(); // lugar
-            $table->integer('max_capacity')->nullable(); // cupo_maximo
-            $table->boolean('status')->default(true); // activo
-            $table ->foreignId('registered_by')
-                    ->nullable()
-                    ->constrained('users')
-                    ->nullOnDelete(); // FK (id_usuario_registro) hacia la tabla users
-            
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('students', function (Blueprint $table) {
+        $table->id();
+        $table->string('first_name');
+        $table->string('last_name');
+        $table->string('email')->unique();
+        $table->date('date_of_birth')->nullable();
+        $table->string('degree_program')->nullable();
+        $table->date('registration_date')->nullable();
+        $table->timestamps();
+    });
+}
 
-    public function down(): void
-    {
-        Schema::dropIfExists('events');
-    }
+public function down(): void
+{
+    Schema::dropIfExists('students');
+}
 };

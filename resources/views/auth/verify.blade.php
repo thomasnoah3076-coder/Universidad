@@ -1,28 +1,41 @@
-@extends('layouts.app')
+@extends('layouts.app_authentication')
+
+@section('title', 'Verificar correo')
+
+@section('body-class', 'login-page login-standalone')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+    <div class="login-box">
+        <div class="login-standalone-brand">
+            <span class="brand-mark" aria-hidden="true">U</span>
+            <span>Universidad</span>
+        </div>
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
+        <div class="card">
+            <div class="card-body">
+                <h1 class="login-title">Verifica tu correo</h1>
+                <p class="login-subtitle mb-4">
+                    Antes de continuar, revisa tu correo y abre el enlace de verificación.
+                </p>
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                @if (session('resent'))
+                    <div class="alert alert-success" role="alert">
+                        Te enviamos un nuevo enlace de verificación.
+                    </div>
+                @endif
+
+                @if (Route::has('verification.resend'))
+                    <form method="POST" action="{{ route('verification.resend') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        <p class="mb-3">Si no recibiste el correo, podemos enviarte otro.</p>
+                        <button type="submit" class="btn btn-primary btn-block">Enviar otro enlace</button>
                     </form>
-                </div>
+                @endif
+
+                <p class="login-help">
+                    <a href="{{ route('home') }}">Volver al inicio</a>
+                </p>
             </div>
         </div>
     </div>
-</div>
 @endsection

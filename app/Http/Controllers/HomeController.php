@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Club;
+use App\Models\Enrollment;
+use App\Models\Student;
+use Illuminate\Contracts\View\View;
 
 class HomeController extends Controller
 {
@@ -17,12 +20,15 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * Página de inicio con el resumen del registro.
      */
-    public function index()
+    public function index(): View
     {
-        return view('home');
+        return view('home', [
+            'totalEstudiantes' => Student::count(),
+            'totalClubes' => Club::count(),
+            'totalInscripciones' => Enrollment::count(),
+            'inscripcionesActivas' => Enrollment::where('status', 'active')->count(),
+        ]);
     }
 }

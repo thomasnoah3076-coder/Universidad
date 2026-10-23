@@ -9,14 +9,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'description', 'foundation_date', 'president_id'])]
+#[Fillable(['name', 'description', 'foundation_date', 'president_id', 'status', 'registered_by'])]
 #[Hidden(['password', 'remember_token'])]
 class Club extends Model
 {
     use HasFactory;
 
     protected $table = 'clubs';
+
     protected $primaryKey = 'id';
+
+    /**
+     * Convierte las columnas al tipo adecuado al usar el modelo.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'foundation_date' => 'date',
+            'status' => 'boolean',
+        ];
+    }
 
     public function president(): BelongsTo
     {

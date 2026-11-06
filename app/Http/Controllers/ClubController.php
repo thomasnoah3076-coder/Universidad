@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClubRequest;
 use App\Models\Club;
 use App\Models\Student;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 class ClubController extends Controller
 {
@@ -39,9 +38,9 @@ class ClubController extends Controller
     /**
      * Guarda el club y sus inscripciones.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(ClubRequest $request): RedirectResponse
     {
-        $datos = $this->validar($request);
+        $datos = $request->validated();
         $seleccionados = $datos['students'] ?? [];
         unset($datos['students']);
 
@@ -84,9 +83,9 @@ class ClubController extends Controller
     /**
      * Actualiza el club y sincroniza sus inscripciones.
      */
-    public function update(Request $request, Club $club): RedirectResponse
+    public function update(ClubRequest $request, Club $club): RedirectResponse
     {
-        $datos = $this->validar($request, $club);
+        $datos = $request->validated();
         $seleccionados = $datos['students'] ?? [];
         unset($datos['students']);
 
@@ -153,28 +152,5 @@ class ClubController extends Controller
                 'status' => 'active',
             ]);
         }
-    }
-
-    /**
-     * Reglas de validación compartidas por store y update.
-     *
-     * @return array<string, mixed>
-     */
-    private function validar(Request $request, ?Club $club = null): array
-    {
-        return $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('clubs', 'name')->ignore($club?->id)],
-            'description' => ['nullable', 'string'],
-            'foundation_date' => ['nullable', 'date', 'before_or_equal:today'],
-            'president_id' => ['nullable', 'integer', 'exists:students,id'],
-            'students' => ['nullable', 'array'],
-            'students.*' => ['integer', 'exists:students,id'],
-        ], [
-            'name.required' => 'The club name is required.',
-            'name.unique' => 'A club with that name already exists.',
-            'foundation_date.before_or_equal' => 'The foundation date cannot be in the future.',
-            'president_id.exists' => 'The selected president does not exist.',
-            'students.*.exists' => 'One of the selected students does not exist.',
-        ]);
     }
 }

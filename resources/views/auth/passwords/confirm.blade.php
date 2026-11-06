@@ -1,6 +1,6 @@
 @extends('layouts.app_authentication')
 
-@section('title', 'Confirmar contraseña')
+@section('title', 'Confirm password')
 
 @section('body-class', 'login-page login-split')
 
@@ -11,9 +11,9 @@
         <main class="login-panel">
             <div class="login-box">
                 <div class="login-panel-head">
-                    <h2 class="login-title">Confirma tu contraseña</h2>
+                    <h2 class="login-title">Confirm your password</h2>
                     <p class="login-subtitle">
-                        Por seguridad, vuelve a introducir tu contraseña para continuar.
+                        For security, enter your password again to continue.
                     </p>
                 </div>
 
@@ -21,7 +21,7 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="password">Contraseña</label>
+                        <label for="password">Password</label>
                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
                             name="password" required autocomplete="current-password" autofocus>
                         @error('password')
@@ -29,11 +29,11 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block btn-login">Confirmar</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-login">Confirm</button>
                 </form>
 
                 <p class="login-help">
-                    <a href="{{ route('home') }}">Volver al inicio</a>
+                    <a href="{{ route('home') }}">Back to home</a>
                 </p>
             </div>
         </main>

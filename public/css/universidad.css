@@ -311,6 +311,93 @@ code {
     border-color: var(--uni-accent);
 }
 
+/* ---------- DataTables dentro de tarjetas ---------- */
+
+.card .table-responsive > .dataTables_wrapper > .row:first-child,
+.card .table-responsive > .dataTables_wrapper > .row:last-child {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.card .table-responsive > .dataTables_wrapper > .row:first-child {
+    padding-top: .5rem;
+}
+
+.card .table-responsive > .dataTables_wrapper > .row:last-child {
+    align-items: center;
+    padding-top: .25rem;
+    padding-bottom: .75rem;
+}
+
+.card .table-responsive > .dataTables_wrapper .dataTables_info {
+    padding-top: 0;
+}
+
+.card .table-responsive > .dataTables_wrapper .dataTables_paginate ul.pagination {
+    margin: 0;
+}
+
+/* ---------- Inscripciones: clubes y estudiantes ---------- */
+
+.club-table > tbody > tr > td {
+    padding: 0;
+    border-top: 0;
+}
+
+.club-box {
+    border-top: 1px solid var(--uni-rule);
+}
+
+.club-table > tbody > tr:first-child .club-box {
+    border-top: 0;
+}
+
+.club-box-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: .9rem 1.25rem;
+    background-color: var(--uni-paper);
+    border-bottom: 1px solid var(--uni-rule);
+}
+
+.club-box-header a {
+    font-family: var(--uni-serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--uni-ink);
+}
+
+.club-box-header a:hover {
+    color: var(--uni-accent-ink);
+}
+
+.club-box-empty {
+    padding: 1rem 1.25rem;
+    color: var(--uni-muted);
+}
+
+.club-students thead th {
+    padding: .6rem 1rem;
+    font-size: .72rem;
+    border-bottom: 1px solid var(--uni-rule);
+}
+
+.club-students thead th:first-child,
+.club-students tbody td:first-child {
+    padding-left: 2rem;
+}
+
+.club-students tbody td {
+    padding: .65rem 1rem;
+}
+
+.club-students tbody tr:first-child td {
+    border-top: 0;
+}
+
 .card-body dl dt {
     font-size: .78rem;
     font-weight: 600;

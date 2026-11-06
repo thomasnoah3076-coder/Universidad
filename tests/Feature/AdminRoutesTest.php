@@ -16,10 +16,10 @@ test('un usuario autenticado accede a dashboard y settings', function () {
     $this->actingAs($user)
         ->get('/dashboard')
         ->assertOk()
-        ->assertSee('Panel');
+        ->assertSee('Dashboard');
 
     $this->actingAs($user)
         ->get('/settings')
         ->assertOk()
-        ->assertSee('Configuración');
+        ->assertSee('Settings');
 });

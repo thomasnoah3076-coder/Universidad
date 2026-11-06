@@ -2,7 +2,7 @@
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"
-                aria-label="Mostrar u ocultar el menú">
+                aria-label="Show or hide menu">
                 <i class="fas fa-bars"></i>
             </a>
         </li>
@@ -19,7 +19,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                    title="Cerrar sesión" aria-label="Cerrar sesión">
+                    title="Sign out" aria-label="Sign out">
                     <i class="fas fa-power-off"></i>
                 </a>
                 <form id="logout-form" method="POST" action="{{ route('logout') }}" class="d-none">

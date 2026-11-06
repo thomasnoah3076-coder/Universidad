@@ -1,6 +1,6 @@
 @extends('layouts.app_authentication')
 
-@section('title', 'Bienvenido')
+@section('title', 'Welcome')
 
 @section('body-class', 'login-page login-split')
 
@@ -11,21 +11,21 @@
         <main class="login-panel">
             <div class="login-box">
                 <div class="login-panel-head">
-                    <h2 class="login-title">Bienvenido</h2>
+                    <h2 class="login-title">Welcome</h2>
                     <p class="login-subtitle">
-                        Accede al registro académico o crea una cuenta para comenzar.
+                        Sign in to the academic registry or create an account to get started.
                     </p>
                 </div>
 
                 <a href="{{ route('login') }}" class="btn btn-primary btn-block btn-login">
-                    Iniciar sesión
+                    Sign in
                 </a>
                 <a href="{{ route('register') }}" class="btn btn-outline-secondary btn-block btn-login mt-2">
-                    Crear cuenta
+                    Create account
                 </a>
 
                 <p class="login-help">
-                    Acceso para estudiantes, docentes y personal del registro.
+                    Access for students, faculty and registry staff.
                 </p>
             </div>
         </main>

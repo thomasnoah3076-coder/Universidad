@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EstudianteRequest;
 use App\Models\Student;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -33,15 +37,43 @@ class StudentController extends Controller
     }
 
     /**
-     * Guarda un estudiante nuevo.
+     * Guarda el usuario autenticable, el estudiante y su fotografía.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(EstudianteRequest $request): RedirectResponse
     {
-        Student::create($this->validar($request));
+        $datos = $request->validated();
+        $imagen = $this->guardarImagen($request);
+
+        try {
+            DB::transaction(function () use ($datos, $imagen) {
+                $user = new User;
+                $user->name = trim($datos['first_name'].' '.$datos['last_name']);
+                $user->email = $datos['email'];
+                $user->email_verified_at = now();
+                $user->password = Hash::make($datos['numerodocumento']);
+                $user->remember_token = Str::random(40);
+                $user->save();
+
+                Student::create([
+                    'user_id' => $user->id,
+                    'first_name' => $datos['first_name'],
+                    'last_name' => $datos['last_name'],
+                    'email' => $datos['email'],
+                    'numerodocumento' => $datos['numerodocumento'],
+                    'date_of_birth' => $datos['date_of_birth'] ?? null,
+                    'degree_program' => $datos['degree_program'] ?? null,
+                    'registration_date' => $datos['registration_date'] ?? null,
+                    'image' => $imagen,
+                ]);
+            });
+        } catch (\Throwable $e) {
+            $this->eliminarImagen($imagen);
+            throw $e;
+        }
 
         return redirect()
             ->route('students.index')
-            ->with('success', 'Estudiante registrado correctamente.');
+            ->with('success', 'Student registered successfully.');
     }
 
     /**
@@ -63,55 +95,106 @@ class StudentController extends Controller
     }
 
     /**
-     * Actualiza los datos del estudiante.
+     * Actualiza los datos del estudiante y, si existe, su usuario vinculado.
      */
-    public function update(Request $request, Student $student): RedirectResponse
+    public function update(EstudianteRequest $request, Student $student): RedirectResponse
     {
-        $student->update($this->validar($request, $student));
+        $datos = $request->validated();
+        $nuevaImagen = $this->guardarImagen($request);
+        $imagenAnterior = $student->image;
+
+        try {
+            DB::transaction(function () use ($datos, $nuevaImagen, $student) {
+                $student->update([
+                    'first_name' => $datos['first_name'],
+                    'last_name' => $datos['last_name'],
+                    'email' => $datos['email'],
+                    'numerodocumento' => $datos['numerodocumento'] ?? $student->numerodocumento,
+                    'date_of_birth' => $datos['date_of_birth'] ?? null,
+                    'degree_program' => $datos['degree_program'] ?? null,
+                    'registration_date' => $datos['registration_date'] ?? null,
+                    'image' => $nuevaImagen ?? $student->image,
+                ]);
+
+                if ($student->user) {
+                    $student->user->update([
+                        'name' => trim($datos['first_name'].' '.$datos['last_name']),
+                        'email' => $datos['email'],
+                    ]);
+                }
+            });
+        } catch (\Throwable $e) {
+            $this->eliminarImagen($nuevaImagen);
+            throw $e;
+        }
+
+        if ($nuevaImagen) {
+            $this->eliminarImagen($imagenAnterior);
+        }
 
         return redirect()
             ->route('students.show', $student)
-            ->with('success', 'Estudiante actualizado correctamente.');
+            ->with('success', 'Student updated successfully.');
     }
 
     /**
-     * Elimina el estudiante y sus inscripciones.
+     * Elimina el estudiante, sus inscripciones, su usuario vinculado y su foto.
      * Las claves foráneas de enrollments no tienen cascade, por eso se borran primero.
      */
     public function destroy(Student $student): RedirectResponse
     {
-        DB::transaction(function () use ($student) {
+        $user = $student->user;
+        $imagen = $student->image;
+
+        DB::transaction(function () use ($student, $user) {
             $student->enrollments()->delete();
             $student->delete();
+
+            if ($user && $user->id !== auth()->id()) {
+                $user->delete();
+            }
         });
+
+        $this->eliminarImagen($imagen);
 
         return redirect()
             ->route('students.index')
-            ->with('success', 'Estudiante eliminado correctamente.');
+            ->with('success', 'Student deleted successfully.');
     }
 
     /**
-     * Reglas de validación compartidas por store y update.
-     *
-     * @return array<string, mixed>
+     * Mueve la fotografía a public/uploads/personas/estudiantes.
      */
-    private function validar(Request $request, ?Student $student = null): array
+    private function guardarImagen(EstudianteRequest $request): ?string
     {
-        return $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('students', 'email')->ignore($student?->id)],
-            'date_of_birth' => ['nullable', 'date', 'before:today'],
-            'degree_program' => ['nullable', 'string', 'max:255'],
-            'registration_date' => ['nullable', 'date'],
-        ], [
-            'first_name.required' => 'El nombre es obligatorio.',
-            'last_name.required' => 'El apellido es obligatorio.',
-            'email.required' => 'El correo es obligatorio.',
-            'email.email' => 'Escribe un correo válido.',
-            'email.unique' => 'Ya existe un estudiante con ese correo.',
-            'date_of_birth.before' => 'La fecha de nacimiento debe ser anterior a hoy.',
-            'registration_date.date' => 'La fecha de registro no es válida.',
-        ]);
+        if (! $request->hasFile('image')) {
+            return null;
+        }
+
+        $archivo = $request->file('image');
+        $slug = Str::slug($request->input('first_name').' '.$request->input('last_name')) ?: 'estudiante';
+        $nombreArchivo = $slug.'-'.Carbon::now()->toDateString().'-'.uniqid().'.'.$archivo->getClientOriginalExtension();
+        $directorio = public_path('uploads/personas/estudiantes');
+
+        File::ensureDirectoryExists($directorio, 0775, true);
+        $archivo->move($directorio, $nombreArchivo);
+
+        return 'uploads/personas/estudiantes/'.$nombreArchivo;
+    }
+
+    /**
+     * Borra una foto del disco solo si está dentro de uploads/personas/estudiantes.
+     */
+    private function eliminarImagen(?string $ruta): void
+    {
+        if (! $ruta || ! str_starts_with($ruta, 'uploads/personas/estudiantes/')) {
+            return;
+        }
+
+        $absoluta = public_path($ruta);
+
+        if (File::isFile($absoluta)) {
+            File::delete($absoluta);
+        }
     }
 }

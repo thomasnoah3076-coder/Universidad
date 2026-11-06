@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Nuevo club')
+@section('title', 'New club')
 
 @section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('clubs.index') }}">Clubes</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('clubs.index') }}">Clubs</a></li>
+    <li class="breadcrumb-item active" aria-current="page">New</li>
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title h6 mb-0">Datos del club</h2>
+                    <h2 class="card-title h6 mb-0">Club details</h2>
                 </div>
 
                 <form action="{{ route('clubs.store') }}" method="POST">
@@ -24,8 +24,8 @@
                     </div>
 
                     <div class="card-footer bg-white">
-                        <button type="submit" class="btn btn-primary">Guardar club</button>
-                        <a href="{{ route('clubs.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Save club</button>
+                        <a href="{{ route('clubs.index') }}" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

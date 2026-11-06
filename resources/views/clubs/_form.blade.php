@@ -1,7 +1,7 @@
 @php($club = $club ?? null)
 
 <div class="form-group">
-    <label for="name">Nombre del club</label>
+    <label for="name">Club name</label>
     <input type="text" name="name" id="name"
         class="form-control @error('name') is-invalid @enderror"
         value="{{ old('name', $club->name ?? '') }}" required>
@@ -11,33 +11,33 @@
 </div>
 
 <div class="form-group">
-    <label for="description">Descripción</label>
+    <label for="description">Description</label>
     <textarea name="description" id="description" rows="4"
         class="form-control @error('description') is-invalid @enderror"
-        placeholder="Actividades, objetivo o público del club">{{ old('description', $club->description ?? '') }}</textarea>
+        placeholder="Club activities, purpose or audience">{{ old('description', $club->description ?? '') }}</textarea>
     @error('description')
         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
     @enderror
-    <small class="form-text">Opcional.</small>
+    <small class="form-text">Optional.</small>
 </div>
 
 <div class="form-row">
     <div class="form-group col-md-6">
-        <label for="foundation_date">Fecha de fundación</label>
+        <label for="foundation_date">Foundation date</label>
         <input type="date" name="foundation_date" id="foundation_date"
             class="form-control @error('foundation_date') is-invalid @enderror"
             value="{{ old('foundation_date', $club->foundation_date ?? '') }}">
         @error('foundation_date')
             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
         @enderror
-        <small class="form-text">Opcional.</small>
+        <small class="form-text">Optional.</small>
     </div>
 
     <div class="form-group col-md-6">
-        <label for="president_id">Presidente</label>
+        <label for="president_id">President</label>
         <select name="president_id" id="president_id"
             class="form-control @error('president_id') is-invalid @enderror">
-            <option value="">Sin presidente</option>
+            <option value="">No president</option>
             @foreach ($students as $student)
                 <option value="{{ $student->id }}" @selected((string) old('president_id', $club->president_id ?? '') === (string) $student->id)>
                     {{ $student->last_name }}, {{ $student->first_name }}
@@ -51,7 +51,7 @@
 </div>
 
 <div class="form-group mb-0">
-    <label for="students">Estudiantes inscritos</label>
+    <label for="students">Enrolled students</label>
     <select name="students[]" id="students" class="form-control select-estudiantes" multiple>
         @foreach ($students as $student)
             <option value="{{ $student->id }}"
@@ -80,10 +80,10 @@
             $('.select-estudiantes').select2({
                 theme: 'bootstrap4',
                 width: '100%',
-                placeholder: 'Selecciona estudiantes',
+                placeholder: 'Select students',
                 language: {
                     noResults: function () {
-                        return 'Sin resultados';
+                        return 'No results';
                     }
                 }
             });

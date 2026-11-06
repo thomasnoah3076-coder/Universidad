@@ -5,13 +5,13 @@
     </div>
 
     <div class="login-ledger-copy">
-        <h1>Registro académico</h1>
-        <p>Administra estudiantes, clubes y las inscripciones que los relacionan.</p>
+        <h1>Academic registry</h1>
+        <p>Manage students, clubs and the enrollments that connect them.</p>
 
         <ul class="login-ledger-list">
-            <li>Estudiantes</li>
-            <li>Clubes</li>
-            <li>Inscripciones</li>
+            <li>Students</li>
+            <li>Clubs</li>
+            <li>Enrollments</li>
         </ul>
     </div>
 

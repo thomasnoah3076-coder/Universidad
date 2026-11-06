@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Panel')
+@section('title', 'Dashboard')
 
 @section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Panel</li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
 @endsection
 
 @section('page-actions')
     <a href="{{ route('students.index') }}" class="btn btn-outline-secondary">
-        <i class="fas fa-user-graduate mr-1"></i>Estudiantes
+        <i class="fas fa-user-graduate mr-1"></i>Students
     </a>
     <a href="{{ route('clubs.index') }}" class="btn btn-primary">
-        <i class="fas fa-users mr-1"></i>Clubes
+        <i class="fas fa-users mr-1"></i>Clubs
     </a>
 @endsection
 
@@ -21,7 +21,7 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Panel de administración</h2>
+                    <h2 class="card-title">Administration dashboard</h2>
                 </div>
 
                 <div class="card-body">
@@ -32,12 +32,12 @@
                     @endif
 
                     <p class="mb-4">
-                        Desde este panel puedes revisar el registro académico y administrar estudiantes y clubes.
+                        From this dashboard you can review the academic registry and manage students and clubs.
                     </p>
 
-                    <a href="{{ route('students.index') }}" class="btn btn-primary mr-2 mb-2">Ver estudiantes</a>
-                    <a href="{{ route('clubs.index') }}" class="btn btn-outline-secondary mr-2 mb-2">Ver clubes</a>
-                    <a href="{{ route('settings') }}" class="btn btn-outline-secondary mb-2">Configuración</a>
+                    <a href="{{ route('students.index') }}" class="btn btn-primary mr-2 mb-2">View students</a>
+                    <a href="{{ route('clubs.index') }}" class="btn btn-outline-secondary mr-2 mb-2">View clubs</a>
+                    <a href="{{ route('settings') }}" class="btn btn-outline-secondary mb-2">Settings</a>
                 </div>
             </div>
         </div>

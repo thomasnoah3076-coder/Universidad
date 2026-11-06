@@ -57,7 +57,7 @@ class ClubController extends Controller
 
         return redirect()
             ->route('clubs.show', $club)
-            ->with('success', 'Club registrado correctamente.');
+            ->with('success', 'Club registered successfully.');
     }
 
     /**
@@ -97,7 +97,7 @@ class ClubController extends Controller
 
         return redirect()
             ->route('clubs.show', $club)
-            ->with('success', 'Club actualizado correctamente.');
+            ->with('success', 'Club updated successfully.');
     }
 
     /**
@@ -112,7 +112,7 @@ class ClubController extends Controller
 
         return redirect()
             ->route('clubs.index')
-            ->with('success', 'Club eliminado correctamente.');
+            ->with('success', 'Club deleted successfully.');
     }
 
     /**
@@ -170,11 +170,11 @@ class ClubController extends Controller
             'students' => ['nullable', 'array'],
             'students.*' => ['integer', 'exists:students,id'],
         ], [
-            'name.required' => 'El nombre del club es obligatorio.',
-            'name.unique' => 'Ya existe un club con ese nombre.',
-            'foundation_date.before_or_equal' => 'La fecha de fundación no puede ser futura.',
-            'president_id.exists' => 'El presidente seleccionado no existe.',
-            'students.*.exists' => 'Uno de los estudiantes seleccionados no existe.',
+            'name.required' => 'The club name is required.',
+            'name.unique' => 'A club with that name already exists.',
+            'foundation_date.before_or_equal' => 'The foundation date cannot be in the future.',
+            'president_id.exists' => 'The selected president does not exist.',
+            'students.*.exists' => 'One of the selected students does not exist.',
         ]);
     }
 }

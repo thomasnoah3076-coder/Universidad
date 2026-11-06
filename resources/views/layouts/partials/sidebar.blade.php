@@ -5,26 +5,33 @@
     </a>
 
     <div class="sidebar">
-        <nav class="mt-3" aria-label="Menú principal">
+        <nav class="mt-3" aria-label="Main menu">
             <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
                 <li class="nav-item">
                     <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-home"></i>
-                        <p>Inicio</p>
+                        <p>Home</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('students.index') }}"
                         class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-graduate"></i>
-                        <p>Estudiantes</p>
+                        <p>Students</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('clubs.index') }}"
                         class="nav-link {{ request()->routeIs('clubs.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
-                        <p>Clubes</p>
+                        <p>Clubs</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('inscripciones.index') }}"
+                        class="nav-link {{ request()->routeIs('inscripciones.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <p>Enrollments</p>
                     </a>
                 </li>
             </ul>

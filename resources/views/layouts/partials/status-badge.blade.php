@@ -1,9 +1,9 @@
 @php
     $estados = [
-        'pending' => ['Pendiente', 'badge-warning'],
-        'active' => ['Activo', 'badge-success'],
-        'rejected' => ['Rechazado', 'badge-danger'],
-        'inactive' => ['Inactivo', 'badge-secondary'],
+        'pending' => ['Pending', 'badge-warning'],
+        'active' => ['Active', 'badge-success'],
+        'rejected' => ['Rejected', 'badge-danger'],
+        'inactive' => ['Inactive', 'badge-secondary'],
     ];
 
     [$textoEstado, $claseEstado] = $estados[$status] ?? [$status, 'badge-secondary'];

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['student_id', 'club_id', 'enrollment_date', 'status'])]
+#[Fillable(['student_id', 'club_id', 'enrollment_date', 'status', 'registered_by'])]
 #[Hidden(['password', 'remember_token'])]
 
 class Enrollment extends Model
@@ -16,6 +16,7 @@ class Enrollment extends Model
     use HasFactory;
 
     protected $table = 'enrollments';
+
     protected $primaryKey = 'id';
 
     public function student(): BelongsTo
@@ -26,5 +27,10 @@ class Enrollment extends Model
     public function club(): BelongsTo
     {
         return $this->belongsTo(Club::class, 'club_id');
+    }
+
+    public function registeredBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'registered_by');
     }
 }

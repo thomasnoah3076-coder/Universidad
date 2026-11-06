@@ -24,6 +24,7 @@ Auth::routes(['verify' => true]);
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\StudentController;
 
 Route::middleware(['auth'])->group(function () {
@@ -32,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('students', StudentController::class);
     Route::resource('clubs', ClubController::class);
+    Route::resource('inscripciones', InscripcionController::class)->only(['index', 'create', 'store']);
 });
 
 use App\Http\Controllers\HomeController;

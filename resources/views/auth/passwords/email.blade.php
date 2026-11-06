@@ -1,6 +1,6 @@
 @extends('layouts.app_authentication')
 
-@section('title', 'Restablecer contraseña')
+@section('title', 'Reset password')
 
 @section('body-class', 'login-page login-standalone')
 
@@ -13,9 +13,9 @@
 
         <div class="card">
             <div class="card-body">
-                <h1 class="login-title">Restablecer contraseña</h1>
+                <h1 class="login-title">Reset password</h1>
                 <p class="login-subtitle mb-4">
-                    Escribe tu correo y te enviaremos un enlace para crear una contraseña nueva.
+                    Enter your email and we will send you a link to create a new password.
                 </p>
 
                 @if (session('status'))
@@ -28,20 +28,20 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="email">Correo electrónico</label>
+                        <label for="email">Email address</label>
                         <input id="email" type="email" name="email"
                             class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
-                            placeholder="nombre@universidad.edu" required autocomplete="email" autofocus>
+                            placeholder="name@university.edu" required autocomplete="email" autofocus>
                         @error('email')
                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">Enviar enlace</button>
+                    <button type="submit" class="btn btn-primary btn-block">Send link</button>
                 </form>
 
                 <p class="login-help">
-                    <a href="{{ route('login') }}">Volver al inicio de sesión</a>
+                    <a href="{{ route('login') }}">Back to sign in</a>
                 </p>
             </div>
         </div>

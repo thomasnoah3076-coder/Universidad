@@ -1,6 +1,6 @@
 @extends('layouts.app_authentication')
 
-@section('title', 'Crear cuenta')
+@section('title', 'Create account')
 
 @section('body-class', 'login-page login-split')
 
@@ -11,15 +11,15 @@
         <main class="login-panel">
             <div class="login-box">
                 <div class="login-panel-head">
-                    <h2 class="login-title">Crear cuenta</h2>
-                    <p class="login-subtitle">Registra tus datos para acceder al sistema.</p>
+                    <h2 class="login-title">Create account</h2>
+                    <p class="login-subtitle">Enter your details to access the system.</p>
                 </div>
 
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
 
                     <div class="form-group">
-                        <label for="name">Nombre completo</label>
+                        <label for="name">Full name</label>
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
                             name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                         @error('name')
@@ -28,17 +28,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Correo electrónico</label>
+                        <label for="email">Email address</label>
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                             name="email" value="{{ old('email') }}" required autocomplete="email"
-                            placeholder="nombre@universidad.edu">
+                            placeholder="name@university.edu">
                         @error('email')
                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Contraseña</label>
+                        <label for="password">Password</label>
                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
                             name="password" required autocomplete="new-password">
                         @error('password')
@@ -47,16 +47,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password-confirm">Confirmar contraseña</label>
+                        <label for="password-confirm">Confirm password</label>
                         <input id="password-confirm" type="password" class="form-control"
                             name="password_confirmation" required autocomplete="new-password">
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block btn-login">Crear cuenta</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-login">Create account</button>
                 </form>
 
                 <p class="login-help">
-                    ¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión</a>
+                    Already have an account? <a href="{{ route('login') }}">Sign in</a>
                 </p>
             </div>
         </main>

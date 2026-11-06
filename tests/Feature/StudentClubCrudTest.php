@@ -5,6 +5,7 @@ use App\Models\Enrollment;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 
 uses(RefreshDatabase::class);
 
@@ -16,8 +17,8 @@ test('un invitado es redirigido al login desde estudiantes y clubes', function (
 test('el listado de estudiantes y clubes carga para un usuario autenticado', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)->get('/students')->assertOk()->assertSee('Estudiantes');
-    $this->actingAs($user)->get('/clubs')->assertOk()->assertSee('Clubes');
+    $this->actingAs($user)->get('/students')->assertOk()->assertSee('Students');
+    $this->actingAs($user)->get('/clubs')->assertOk()->assertSee('Clubs');
 });
 
 test('se registra un estudiante con datos válidos', function () {
@@ -28,10 +29,36 @@ test('se registra un estudiante con datos válidos', function () {
             'first_name' => 'Ana',
             'last_name' => 'Pérez',
             'email' => 'ana.perez@example.test',
+            'numerodocumento' => '1098765432',
         ])
         ->assertRedirect('/students');
 
     $this->assertDatabaseHas('students', ['email' => 'ana.perez@example.test']);
+    $this->assertDatabaseHas('users', ['email' => 'ana.perez@example.test']);
+});
+
+test('el estudiante se registra con usuario vinculado y fotografía', function () {
+    $admin = User::factory()->create();
+
+    $this->actingAs($admin)
+        ->post('/students', [
+            'first_name' => 'Luis',
+            'last_name' => 'Gómez',
+            'email' => 'luis.gomez@example.test',
+            'numerodocumento' => '1098765433',
+            'image' => UploadedFile::fake()->image('luis.jpg', 120, 120),
+        ])
+        ->assertRedirect('/students');
+
+    $student = Student::where('email', 'luis.gomez@example.test')->first();
+
+    expect($student)->not->toBeNull();
+    expect($student->user_id)->not->toBeNull();
+    expect($student->image)->toStartWith('uploads/personas/estudiantes/');
+    expect(is_file(public_path($student->image)))->toBeTrue();
+    expect($student->user->email)->toBe('luis.gomez@example.test');
+
+    @unlink(public_path($student->image));
 });
 
 test('se registra un club con estudiantes inscritos', function () {

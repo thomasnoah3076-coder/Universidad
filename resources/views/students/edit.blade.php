@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Editar estudiante')
+@section('title', 'Edit student')
 
 @section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('students.index') }}">Estudiantes</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('students.index') }}">Students</a></li>
     <li class="breadcrumb-item"><a href="{{ route('students.show', $student) }}">{{ $student->first_name }} {{ $student->last_name }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+    <li class="breadcrumb-item active" aria-current="page">Edit</li>
 @endsection
 
 @section('content')
@@ -14,10 +14,10 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title h6 mb-0">Datos del estudiante</h2>
+                    <h2 class="card-title h6 mb-0">Student details</h2>
                 </div>
 
-                <form action="{{ route('students.update', $student) }}" method="POST">
+                <form action="{{ route('students.update', $student) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -26,8 +26,8 @@
                     </div>
 
                     <div class="card-footer bg-white">
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                        <a href="{{ route('students.show', $student) }}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <a href="{{ route('students.show', $student) }}" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

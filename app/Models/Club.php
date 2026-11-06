@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['name', 'description', 'foundation_date', 'president_id', 'status', 'registered_by'])]
@@ -40,5 +41,12 @@ class Club extends Model
     public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class, 'club_id');
+    }
+
+    public function estudiantes(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'enrollments', 'club_id', 'student_id')
+            ->withPivot(['enrollment_date', 'status'])
+            ->withTimestamps();
     }
 }

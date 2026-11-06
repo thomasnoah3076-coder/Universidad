@@ -5,7 +5,7 @@
                 <div class="page-heading">
                     <h1 class="page-title">@yield('title')</h1>
 
-                    <nav aria-label="Ruta de navegación">
+                    <nav aria-label="Breadcrumb">
                         <ol class="breadcrumb page-breadcrumb">
                             @yield('breadcrumbs')
                         </ol>
